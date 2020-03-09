@@ -174,7 +174,7 @@ program define imputeHD
 		mi reshape long `toImpute', i(`ivar') j(`timevar')
 		
 		if "`savemidata'" ~= "" {
-			no di in y "Merged imputation files saved in: " _n ///
+			no di in y "Merged imputation files saved to: " _n ///
 			" --->  `savemidata'  "
 			save "`savemidata'", replace
 		}
