@@ -17,6 +17,10 @@
 *** HDoptions    = options to be passed to command -hotdeck-
 *** MERGOptions  = options to be passed to -merge- during mering original with imputed data
 *** SAVEmidata   = path/file/name of file to save the merged imputed data only
+*** KEEPHDimp    = keep imputation files produced by -hotdeck-
+
+
+
 
 
 ********************************************************************************
@@ -30,7 +34,7 @@ program define imputeHD
 						       [ BYvars(varlist) NImputations(integer 5) ///
 							     MCItems(string asis) SCOREtype(string asis) /// 
 							     HDoptions(string asis) MERGOptions(string asis) ///
-                                 SAVEmidata(string asis) ]
+                                 SAVEmidata(string asis) KEEPHDimp ]
 
 	qui{
 		*** Collect the levels of timevar
@@ -134,11 +138,18 @@ program define imputeHD
 		tempfile tempSave
 		save `tempSave', replace
 
-		*** Remove all imp files
-		forval i = 1/`nimputations' {
-			erase imp`i'.dta
+		*** Remove all imp files if keephdimp ~= ""
+		if "`keephdimp'" == "" {
+			forval i = 1/`nimputations' {
+				erase imp`i'.dta
+			}
 		}
-
+		else {
+			local myLocation: pwd
+			no di in y "Original hotdeck imputation can be found in directory: " _n ///
+			" --->  `myLocation'  "
+		}
+		
 		*** Create the -imputed- option
 		local imputedOpt ""
 		foreach var of local toImputeWide {
@@ -163,6 +174,7 @@ program define imputeHD
 		mi reshape long `toImpute', i(`ivar') j(`timevar')
 		
 		if "`savemidata'" ~= "" {
+			no di in y "Saving imputed dataset (to `savemidata')..."
 			save "`savemidata'", replace
 		}
 		

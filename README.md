@@ -10,8 +10,8 @@ Introduction
 
 This new Stata command wraps the user-contributed command `hotdeck` to 
 offer functionality for hot deck imputation of scales. `imputeHD`
-outputs a formatted dataset ready for use with Stata's `mi` estimation
-commands.
+replaced the dataset in memory with a formatted dataset ready for use with 
+Stata's `mi` suite of command.
 
 
 
@@ -21,7 +21,7 @@ Installation
 To load `imputeHD`, include the following line in your do file:
 
 ```
-do "https://raw.githubusercontent.com/goshevs/imputeHD/master/ado/imputeHD.ado"
+qui do "https://raw.githubusercontent.com/goshevs/imputeHD/master/ado/imputeHD.ado"
 ```
 
 
@@ -33,7 +33,7 @@ syntax scale_stubs [if] [in], Ivar(varlist) Timevar(varname) ///
                               [ BYvars(varlist) NImputations(integer 5) ///
                                 MCItems(string asis) SCOREtype(string asis) /// 
                                 HDoptions(string asis) MERGOptions(string asis) ///
-                                SAVEmidata(string asis) ]
+                                SAVEmidata(string asis) KEEPHDimp ]
 ```
 
 <br>
@@ -62,12 +62,15 @@ syntax scale_stubs [if] [in], Ivar(varlist) Timevar(varname) ///
 | *HDoptions*    | options to be passed to command `hotdeck` |
 | *MERGOptions*  | merge options to be passed on to `merge` upon merging the imputed data with the original data; imputed dataset is *master*, original dataset is *using* |
 | *SAVEmidata*   | path/file/name of file to save the merged imputed data only |
+| *KEEPHDimp*    | keep imputation files produced by `hotdeck` |
+ 
 
 <br>
 
 **Format of input data**
 
-Input data for `imputeHD` should be in long format. 
+Input data for `imputeHD` should be in long format. In addition, all extraneous items 
+for the scales in `scale_stubs` should be removed from the dataset.
 
 <br>
 
@@ -104,8 +107,9 @@ local myScales "er fnc wb ptsd ss"
 ** Charasteristics to use as stratifiers in the imputation
 local myScrnChr "age_cat_1 education female_n"     
 
-imputeHD `myScales' , i(resp_id) t(timepoint) mci(`myScales') score(sum) ///
-                      by(study_arm_1 `myScrnChr') hd(seed(12345))
+imputeHD `myScales' , i(resp_id) t(timepoint) mci(`myScales') score(mean) ///
+                      by(study_arm_1 `myScrnChr') ni(10) hd(seed(12345)) ///
+                      save(~/Desktop/myImputatedDataOnly.dta)
 
  
 ```
