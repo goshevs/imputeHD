@@ -146,7 +146,7 @@ program define imputeHD
 		}
 		else {
 			local myLocation: pwd
-			no di in y "Original hotdeck imputation can be found in directory: " _n ///
+			no di in y "Original hotdeck imputation files saved in: " _n ///
 			" --->  `myLocation'  "
 		}
 		
@@ -174,7 +174,8 @@ program define imputeHD
 		mi reshape long `toImpute', i(`ivar') j(`timevar')
 		
 		if "`savemidata'" ~= "" {
-			no di in y "Saving imputed dataset (to `savemidata')..."
+			no di in y "Merged imputation files saved in: " _n ///
+			" --->  `savemidata'  "
 			save "`savemidata'", replace
 		}
 		
