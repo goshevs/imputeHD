@@ -70,7 +70,7 @@ syntax scale_stubs [if] [in], Ivar(varlist) Timevar(varname) ///
 **Format of input data**
 
 Input data for `imputeHD` should be in long format. In addition, all extraneous items 
-for the scales in `scale_stubs` should be removed from the dataset.
+of the scales in `scale_stubs` should be removed from the dataset.
 
 <br>
 
@@ -107,9 +107,9 @@ local myScales "er fnc wb ptsd ss"
 ** Charasteristics to use as stratifiers in the imputation
 local myScrnChr "age_cat_1 education female_n"     
 
-imputeHD `myScales' , i(resp_id) t(timepoint) mci(`myScales') score(mean) ///
-                      by(study_arm_1 `myScrnChr') ni(10) hd(seed(12345)) ///
-                      save(~/Desktop/myImputatedDataOnly.dta)
+imputeHD `myScales', i(resp_id) t(timepoint) mci(`myScales') score(mean) ///
+                     by(study_arm_1 `myScrnChr') ni(10) hd(seed(12345)) ///
+                     save(~/Desktop/myImputatedDataOnly.dta)
 
  
 ```
