@@ -97,10 +97,15 @@ Examples
 ---
 
 ```	
-local myScales "er fnc wb ptsd ss"                  // stubs of scale items to impute
-local myScrnChr "age_cat_1 education female_n"      // screener charasteristics to use in the imputation
 
-imputeHD `myScales' , i(resp_id) t(timepoint) mci(`myScales') score(sum) by(study_arm_1 `myScrnChr') hd(seed(12345))
+** Stubs of scale items to impute
+local myScales "er fnc wb ptsd ss"   
+
+** Charasteristics to use as stratifiers in the imputation
+local myScrnChr "age_cat_1 education female_n"     
+
+imputeHD `myScales' , i(resp_id) t(timepoint) mci(`myScales') score(sum) ///
+                      by(study_arm_1 `myScrnChr') hd(seed(12345))
 
  
 ```
