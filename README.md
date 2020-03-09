@@ -44,7 +44,7 @@ syntax scale_stubs [if] [in], Ivar(varlist) Timevar(varname) ///
 
 | argument      | description            |
 |---------------|------------------------|
-| *scale_stubs* | stubs of scales to be imputed |
+| *scale_stubs* | stubs of scales to be imputed (must be unique) |
 | *Ivar*        | unique cluster/panel identifier (i.e. person, firm, country id) |
 | *Timevar*     | time/wave/period identifier |
 
