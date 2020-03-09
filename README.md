@@ -77,8 +77,8 @@ If requesting the use of scale scores, the names of the variables for these scor
 
 `scale_stub` `_` `SCOREtype` `Score`
 
-For example, if creating a mean score for scale with *scale_stub* `er`, the sum score 
-variable will be named as `er_meanScore`.
+For example, if creating a mean score for scale with *scale_stub* `er`, the mean score 
+variable name will be `er_meanScore`.
 
 <br>
 
