@@ -146,7 +146,7 @@ program define imputeHD
 		}
 		else {
 			local myLocation: pwd
-			no di in y "Original hotdeck imputation files (default name imp*.dta) saved in directory: " _n ///
+			no di in y "Original hotdeck imputation files (default name: imp*.dta) saved in directory: " _n ///
 			" --->  `myLocation'  "
 		}
 		
