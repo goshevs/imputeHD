@@ -109,7 +109,7 @@ local myScrnChr "age_cat_1 education female_n"
 
 imputeHD `myScales', i(resp_id) t(timepoint) mci(`myScales') score(mean) ///
                      by(study_arm_1 `myScrnChr') ni(10) hd(seed(12345)) ///
-                     save(~/Desktop/myImputatedDataOnly.dta)
+                     save(~/Desktop/myImputedDataOnly.dta)
 
  
 ```
