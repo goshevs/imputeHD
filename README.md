@@ -10,8 +10,8 @@ Introduction
 
 This new Stata command wraps the user-contributed command `hotdeck` to 
 offer functionality for hot deck imputation of scales. `imputeHD`
-replaced the dataset in memory with a formatted dataset ready for use with 
-Stata's `mi` suite of command.
+replaces the dataset in memory with a complete dataset ready for use with 
+Stata's `mi` suite of commands.
 
 
 
