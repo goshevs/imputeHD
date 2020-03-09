@@ -146,7 +146,7 @@ program define imputeHD
 		}
 		else {
 			local myLocation: pwd
-			no di in y "Original hotdeck imputation files saved in: " _n ///
+			no di in y "Original hotdeck imputation files (default name imp*.dta) saved in directory: " _n ///
 			" --->  `myLocation'  "
 		}
 		
@@ -179,7 +179,7 @@ program define imputeHD
 			save "`savemidata'", replace
 		}
 		
-		noi di in y "Merging with original dataset..."
+		noi di in y "Merging imputations with original dataset..."
 		*** Merge with original data
 		drop `byvars'
 		local mergoptions ", `mergoptions'"
