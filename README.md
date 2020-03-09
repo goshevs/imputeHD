@@ -30,12 +30,12 @@ Syntax
 
 ```
 syntax scale_stubs [if] [in], Ivar(varlist) Timevar(varname) /// 
-				            [ BYvars(varlist) NImputations(integer 5) ///
-						      MCItems(string asis) SCOREtype(string asis) /// 
-						      HDoptions(string asis) MERGOptions(string asis) ///
-                              SAVEmidata(string asis) ]
-
+                              [ BYvars(varlist) NImputations(integer 5) ///
+                                MCItems(string asis) SCOREtype(string asis) /// 
+                                HDoptions(string asis) MERGOptions(string asis) ///
+                                SAVEmidata(string asis) ]
 ```
+
 <br>
 
 `imputeHD` takes the following arguments:
@@ -65,6 +65,23 @@ syntax scale_stubs [if] [in], Ivar(varlist) Timevar(varname) ///
 
 <br>
 
+**Format of input data**
+
+Input data for `imputeHD` should be in long format. 
+
+<br>
+
+**Requesting scale scores**
+
+If requesting the use of scale scores, the names of the variables for these scores follow the convention:
+
+`scale_stub` `_` `SCOREtype` `Score`
+
+For example, if creating a mean score for scale with *scale_stub* `er`, the sum score 
+variable will be named as `er_meanScore`.
+
+<br>
+
 Working with sensitive data?
 ---
 
@@ -79,5 +96,11 @@ reference for instructions on how to do this.
 Examples
 ---
 
-```	 
+```	
+local myScales "er fnc wb ptsd ss"                  // stubs of scale items to impute
+local myScrnChr "age_cat_1 education female_n"      // screener charasteristics to use in the imputation
+
+imputeHD `myScales' , i(resp_id) t(timepoint) mci(`myScales') score(sum) by(study_arm_1 `myScrnChr') hd(seed(12345))
+
+ 
 ```
