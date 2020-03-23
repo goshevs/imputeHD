@@ -37,8 +37,11 @@ program define imputeHD
                                  SAVEmidata(string asis) KEEPHDimp ]
 
 	qui{
+		*** Subset to requested sample
+		marksample touse
+		
 		*** Collect the levels of timevar
-		levelsof `timevar', local(timePoints)
+		levelsof `timevar' if `touse', local(timePoints)
 		
 		*** Collect all items to impute
 		local toImpute ""
@@ -57,8 +60,8 @@ program define imputeHD
 					tempvar `item'_mc
 					gen ``item'_mc' = .
 					foreach tp of local timePoints {			
-						sum `item' if `timevar' == `tp'   // compute the mean for period
-						replace ``item'_mc' = `item' - `r(mean)' if `timevar' == `tp'   // demean the item for period							
+						sum `item' if `timevar' == `tp' & `touse'   // compute the mean for period
+						replace ``item'_mc' = `item' - `r(mean)' if `timevar' == `tp' & `touse'   // demean the item for period							
 					}
 					local myItems "`myItems' ``item'_mc'"
 				}
@@ -76,7 +79,7 @@ program define imputeHD
 					local missing ", missing"
 				} 
 				
-				egen `stub'_`scoretype'Score = row`commandType'(`myItems') `missing'
+				egen `stub'_`scoretype'Score = row`commandType'(`myItems') if `touse' `missing'
 	
 				local toImpute "`toImpute' `stub'_`scoretype'Score"
 			}
@@ -89,9 +92,11 @@ program define imputeHD
 		tempfile myOriginalData
 		save `myOriginalData', replace
 		
-		*** Subsetting data to needed variables
+		*** Subsetting data to needed variables and observations
+		drop if !`touse'
 		keep `ivar' `timevar' `toImpute' `byvars'
-		
+	
+	
 		*** Reshaping the data to long format
 		reshape wide `toImpute', i(`ivar') j(`timevar')
 		

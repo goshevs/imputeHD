@@ -85,6 +85,13 @@ variable name will be `er_meanScore`.
 
 <br>
 
+**Subsetting should be implemented with care**
+
+Subsetting using `if` and `in` should be done at the level of respondent. Otherwise, 
+observations in the `if` or `in` set will be imputed by `imputeHD`.
+
+<br>
+
 Working with sensitive data?
 ---
 
@@ -107,7 +114,12 @@ local myScales "er fnc wb ptsd ss"
 ** Charasteristics to use as stratifiers in the imputation
 local myScrnChr "age_cat_1 education female_n"     
 
-imputeHD `myScales', i(resp_id) t(timepoint) mci(`myScales') score(mean) ///
+*** Generate a subsetting variable for entire record
+sort resp_id timepoint
+bys resp_id: gen subset = round(runiform()) if _n == 1
+bys resp_id: replace subset = subset[1]
+
+imputeHD `myScales' if subset, i(resp_id) t(timepoint) mci(`myScales') score(mean) ///
                      by(study_arm_1 `myScrnChr') ni(10) hd(seed(12345)) ///
                      save(~/Desktop/myImputedDataOnly.dta)
 
